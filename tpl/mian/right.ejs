@@ -1,0 +1,178 @@
+<!--右侧登录，最新文章加载-->
+<div class="col-md-4">
+    <% if(!userInfo.id){ %>
+        <div class="col-md-12 con-right" id="cx-reg">
+            <span class="con-right-top login-top">注册</span>
+            <div class="col-md-12 conright">
+                <form class="form-horizontal" id="subform">
+                    <div class="input-group form-cx">
+                        <span class="input-group-addon "><em class="glyphicon glyphicon-user"></em></span>
+                        <input type="text" class="form-control" aria-describedby="inputGroupSuccess3Status">
+                    </div>
+                    <div class="input-group form-cx">
+                        <span class="input-group-addon "><em class="glyphicon glyphicon-lock"></em></span>
+                        <input type="text"  class="form-control" aria-describedby="inputGroupSuccess3Status">
+                    </div>
+                    <div class="input-group form-cx">
+                        <span class="input-group-addon "><em class="glyphicon glyphicon-lock"></em></span>
+                        <input type="text"  class="form-control" aria-describedby="inputGroupSuccess3Status">
+                    </div>
+                    <div style="clear: both"></div>
+                    <a class="btn btn-default btn-right-cx" href="javascript:;" id="reg" role="button"
+                       style="float: left">注册</a>
+                    <a class="btn btn-default btn-right-cx" href="javascript:;" id="login-cx" role="button"
+                       style="float: right">去登录</a>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12 con-right" id="cx-login" style="display: none">
+            <span class="con-right-top login-top">请登录</span>
+            <div class="col-md-12 conright">
+                <form class="form-horizontal">
+                    <div class="input-group form-cx">
+                        <span class="input-group-addon "><em class="glyphicon glyphicon-user"></em></span>
+                        <input type="text" class="form-control" aria-describedby="inputGroupSuccess3Status">
+                    </div>
+                    <div class="input-group form-cx">
+                        <span class="input-group-addon "><em class="glyphicon glyphicon-lock"></em></span>
+                        <input type="text" class="form-control" aria-describedby="inputGroupSuccess3Status">
+                    </div>
+                    <div style="clear: both"></div>
+                    <a class="btn btn-default btn-right-cx" href="javascript:;" id="reg-cx" role="button"
+                       style="float: left">去注册</a>
+                    <a class="btn btn-default btn-right-cx" href="javascript:;" id="login" role="button"
+                       style="float: right">登录</a>
+                </form>
+            </div>
+        </div>
+    <% }else { %>
+        <div class="col-md-12 con-right" id="ment">
+            <span class="con-right-top login-top"><b><%= userInfo.username %></b>欢迎登录</span>
+            <% if(userInfo.isAdmin === true){ %>
+                <a href="admin/ment" class="btn btn-primary btn-lg active" role="button" style="margin:0 0 20px 20px">您是管理员！点击进入管理</a>
+            <% } %>
+            <button type="button" class="btn btn-danger" id="logout" style="margin: 20px">退出</button>
+        </div>
+    <% } %>
+    <div class="col-md-12 con-right">
+                <span class="con-right-top">
+                    <em class="glyphicon glyphicon-fire"></em>
+                    最新文章
+                    <a href="javascript:;" class="glyphicon glyphicon-collapse-up"></a>
+                    <a href="javascript:;"  id="conup" class="glyphicon glyphicon-remove-sign"></a>
+                </span>
+        <ul class="article-cx">
+            <%for(var i=0; i<infos.length; i++){%>
+                <li style="overflow: hidden;">
+                    <a href="/ion?id=<%= infos[i]._id %>" style="width: 100%; float: left; display: block">
+                        <span><%=infos[i].title.substring(0,10)%>...</span>
+                        <b><%=infos[i].comments%></b>
+                    </a>
+                </li>
+            <%}%>
+        </ul>
+    </div>
+    <div class="col-md-12 con-right">
+        <div class="btn-label">
+            <a href="javascript:;" class="btn-label-a" style="background: #d9534f; color: #fff;">分类标签</a>
+            <a href="javascript:;">热门标签</a>
+            <a href="javascript:;">友情链接</a>
+        </div>
+        <div style="clear: both"></div>
+        <ul style="padding: 0">
+            <li class="label-li"><span>sdrfghijio</span></li>
+            <li class="label-li"><span>sdrfghijio</span></li>
+            <li class="label-li"><span>sdrfghijio</span></li>
+        </ul>
+    </div>
+</div>
+<script>
+    //登录显示
+    $('#login-cx').on('click', function () {
+        $('#cx-login').show();
+        $('#cx-reg').hide()
+    })
+    //注册显示
+    $('#reg-cx').on('click', function () {
+        $('#cx-login').hide();
+        $('#cx-reg').show()
+    })
+    //注册；
+    $('#reg').on('click', function () {
+        var reg=/\d{7,10}/g;
+        var rep=/^[0-9a-z]{10,15}$/
+        var username = $(this).parent().find('div:nth-child(1)').find('input').val()
+        var password = $(this).parent().find('div:nth-child(2)').find('input').val()
+        var cpassword = $(this).parent().find('div:nth-child(3)').find('input').val()
+        var str=username.match(reg);
+        var ooo=password.match(rep);
+        if (username === '') {
+            alert('账号不能为空！')
+        } else if (username!=str){
+            alert('账号必须为7到10位的纯数字!')
+        } if (password === '') {
+            alert('密码不能为空!')
+        } else if (password!=ooo){
+            alert('密码只能为数字或字母，长度为10到15之间！')
+        } if (cpassword != password) {
+            alert('两次密码输入不一致')
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '/api/user/reg',
+                dataType: 'json',
+                data: {
+                    username: username,
+                    password: password,
+                },
+                success: function (res) {
+
+                }
+            })
+        }
+    })
+    //登录
+    $('#login').on('click', function () {
+        var username = $(this).parent().find('div:nth-child(1)').find('input').val();
+        var password = $(this).parent().find('div:nth-child(2)').find('input').val();
+        console.log(password)
+        if (username === '') {
+            alert('登录账号不能为空！')
+        } else if (password === '') {
+            alert('密码不能为空！')
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '/api/user/login',
+                data: {
+                    username: username,
+                    password: password
+                },
+                success: function (res) {
+                    console.log(res)
+                    if (res.code === 4) {
+                        window.location.reload()
+                    }
+                }
+            })
+        }
+    })
+    //退出登录
+    $('#logout').on('click', function () {
+        $.ajax({
+            type: 'get',
+            url: '/api/logout',
+            success: function (req) {
+                window.location.reload()
+            }
+        })
+    })
+    //隐藏文章推送窗口
+    $('#conup').on('click',function () {
+        $(this).parent().parent().hide()
+    })
+    //隐藏消息推送窗口
+    $('#comup').on('click',function () {
+        $(this).parent().parent().hide()
+    })
+</script>

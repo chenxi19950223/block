@@ -1,0 +1,74 @@
+<% include top.ejs %>
+<div class="container" style="margin-top: 150px">
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">文章标题</label>
+            <input type="text" class="form-control" id="title">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">文章简介</label>
+            <input type="text" class="form-control" id="abstract">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">文章分类</label>
+            <select class="form-control" id="select">
+                <% for(var i = 0; i < name.length; i++){ %>
+                    <option value="<%= name[i]._id %>"><%= name[i].name %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">文章简介</label>
+            <textarea class="form-control" rows="3" style="height: 300px; resize: none" id="content"></textarea>
+        </div>
+        <button type="button" class="btn btn-default" id="submit">提交</button>
+    </form>
+</div>
+<script>
+    $('#submit').on('click', function () {
+        var title = $('#title').val();
+        var abstract = $('#abstract').val();
+        var selv = $('#select').val();
+        var selt = $("#select").find("option:selected").text();
+        var content = $('#content').val();
+        var com = confirm('是否确认发表文章！');
+        var myDate=new Date();
+        var Day=myDate.getDay()
+        var Month=myDate.getMonth()+1
+        console.log(Month)
+        if (Day===0){
+            Day=7
+        }
+        var time=myDate.getFullYear()+'/'+Month+'/'+myDate.getDate()+'/'+Day+'/'+myDate.getHours()+'/'+myDate.getMinutes()+'/'+myDate.getSeconds()
+        console.log(time)
+        if (title === '') {
+            alert('标题不能为空!')
+        } else if (abstract === '') {
+            alert('简介不能为空!')
+        } else if (content === '') {
+            alert('内容不能为空！')
+        } else if (com) {
+            $.ajax({
+                type: 'post',
+                url: '/admin/content',
+                data: {
+                    title: title,
+                    abstract: abstract,
+                    content: content,
+                    current:time,
+                    selt: selt,
+                    selv: selv
+                },
+                success: function (res) {
+                    if (res.code === 6) {
+                        alert(res.msg)
+                        window.location.reload()
+                    }
+                }
+            })
+        } else {
+            alert('文章发表已取消！')
+        }
+
+    })
+</script>

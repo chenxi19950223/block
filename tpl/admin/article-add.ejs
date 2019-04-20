@@ -1,0 +1,155 @@
+<% include top.ejs %>
+
+<div class="col-md-12">
+    <table class="table table-hover  table-bordered text-center">
+        <tr>
+            <td>ID</td>
+            <td>文章标题</td>
+            <td>发布时间</td>
+            <td>查看数量</td>
+            <td>评论数量</td>
+            <td>文章分类</td>
+            <td>分类ID</td>
+            <td>文章操作</td>
+        </tr>
+        <% for(var i = 0; i < content.length; i++){ %>
+            <tr class="box">
+                <td><%= content[i]._id %></td>
+                <td><%= content[i].title %></td>
+                <td><%= content[i].current %></td>
+                <td><%= content[i].reading %></td>
+                <td><%=content[i].comments%></td>
+                <td><%= content[i].name %></td>
+                <td><%= content[i].class %></td>
+                <td>
+                    <a type="button" class="btn " data-toggle="modal" data-target="#exampleModal"
+                       data-whatever="@getbootstrap">修改</a>|
+                    <a href="javascript:;">删除</a>
+                </td>
+            </tr>
+        <% } %>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改文章</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">标题</label>
+                                <input type="text" id="title" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">简介</label>
+                                <input type="text" id="abstract" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">内容</label>
+                                <textarea class="form-control" rows="3" style="height: 300px; resize: none"
+                                          id="content"></textarea>
+                            </div>
+                            <select class="form-control" id="op">
+                                <% for(var i = 0; i < cla.length; i++){ %>
+                                <option value="<%= cla[i]._id %>"><%= cla[i].name %></option>
+                                <% } %>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="edit">确认修改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </table>
+</div>
+
+
+<script>
+    var id=''
+    //删除文章
+    $('.box').find('a:nth-child(2)').on('click', function () {
+        var id = $(this).parent().parent().find('td:nth-child(1)').text();
+        var com = confirm('是否确认删除？')
+        if (com) {
+            $.ajax({
+                type: 'get',
+                url: '/admin/article/rom',
+                data: {
+                    id: id
+                },
+                success: function (res) {
+                    if (res.code === 7) {
+                        alert(res.msg);
+                        window.location.reload()
+                    }
+                }
+            })
+        } else {
+            alert('已经取消删除！')
+        }
+
+
+    })
+
+    //获取文章内容
+    $('.box').find('a:nth-child(1)').on('click', function () {
+
+        id = $(this).parent().parent().find('td:nth-child(1)').text();
+        $.ajax({
+            type: 'post',
+            url: '/admin/article/find',
+            data: {
+                id: id
+            },
+            success: function (res) {
+                var title = res.title;
+                var abstract = res.abstract;
+                var content = res.content;
+                var oTitle = $('#title');
+                var oAbstract = $('#abstract');
+                var oContent = $('#content');
+                oTitle.val(title);
+                oAbstract.val(abstract);
+                oContent.val(content);
+            }
+        })
+
+    })
+
+    //修改文章
+    $('#edit').on('click', function () {
+        var title = $('#title').val()
+        var abstract = $('#abstract').val()
+        var content = $('#content').val()
+        var op = $("#op").find("option:selected").text();
+        var opv = $("#op option:selected").val();
+        var com = confirm('是否确认修改？')
+        if (com) {
+            $.ajax({
+                type: 'post',
+                url: '/admin/acticle/update',
+                data: {
+                    id: id,
+                    title: title,
+                    abstract: abstract,
+                    content: content,
+                    op: op,
+                    opv: opv
+                },
+                success:function (res) {
+                    if (res.code===7){
+                        alert(res.msg)
+                    }
+                }
+            })
+        } else {
+            alert('已经取消修改！')
+        }
+    })
+
+</script>

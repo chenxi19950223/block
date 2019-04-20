@@ -1,0 +1,180 @@
+<!--文章页-->
+<% include top.ejs %>
+<div class="container-fluid conn-f">
+    <div class="container">
+        <div class="col-md-7">
+            <div class="col-md-12" style="margin-bottom: 30px">
+                <img src="../../public/img/timg1.jpg" alt="" class="img-rounded img-responsive">
+            </div>
+            <div class="col-md-12 con-left">
+                <div class="time hidden-xs">
+                    <span><%= info.current.split('/')[1] %>月</span>
+                    <h4><%= info.current.split('/')[2] %></h4>
+                </div>
+                <div class="glyphicon glyphicon-bookmark icon hidden-xs "></div>
+                <h3><%- info.title %></h3>
+                <div class="con-title visible-md-inline visible-lg-inline text-center">
+                    <span class="glyphicon glyphicon-tags"><b>zanblog</b></span>
+                    <span class="glyphicon glyphicon-user"><b>佚站互联</b></span>
+                    <span class="glyphicon glyphicon-eye-open"><b>24.894</b></span>
+                </div>
+                <img src="../../public/img/timg1.jpg" alt="" class="img-rounded img-responsive">
+                <div class="col-md-12" style="padding: 0">
+                    <div class="con-con">
+                        <%- info.content %>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 con-left">
+                <% if(userInfo.username != undefined){ %>
+                    <div>
+                        <i style="font-style: normal">欢迎<span><%= userInfo.username %></span>您可以发表评论</i>
+                        <textarea id="incom" cols="30" rows="10" class="area-cx"></textarea>
+                        <button class="input-group-addon span-cx" id="comments">发送</button>
+                    </div>
+                <% }else { %>
+                    <b style="display: block; background:firebrick; color: #fff; padding: 5px; text-align: center; font-size: 16px">请登录后评论！</b>
+                <% } %>
+                <div class="col-md-12" style="overflow: hidden" id="msg">
+                </div>
+            </div>
+        </div>
+        <% include right.ejs %>
+    </div>
+</div>
+
+<script>
+    var id = '<%= id %>'
+    var userid = '<%= userInfo.id %>'
+    var user = '<%= userInfo.username %>'
+    var myDate = new Date;
+    var host = myDate.getHours();
+    var minutes = myDate.getMinutes()
+    var oDate = host + ':' + minutes
+    //添加评论
+    $('#comments').on('click', function () {
+        var incom = $('#incom').val()
+        if (incom === '') {
+            alert('评论内容不能为空！')
+        } else {
+            $.ajax({
+                type: 'get',
+                url: '/api/comments',
+                data: {
+                    incom: incom,
+                    user: user,
+                    id: id,
+                    userid: userid,
+                    oDate: oDate,
+                },
+                success: function (res) {
+                    window.location.reload()
+                }
+            })
+        }
+    })
+    $.ajax({
+        type: 'get',
+        url: '/api/comments/com',
+        data: {
+            id: id
+        },
+        success: function (res) {
+            for (var i = 0; i < res.length; i++) {
+                console.log(res[i].username)
+                var Div = ('<div class=\"col-md-12 comments\"><b>' + res[i].username + '</b><em>' + res[i].current + '</em><p>' + res[i].content + '</p><span>回复</span><a href="javascript:;" class="rom" user-id=' + res[i].userid + '>删除</a><i style="display: none">' + res[i]._id + '</i></div>')
+                $('#msg').prepend(Div)
+            }
+        }
+    })
+
+
+
+    //回复评论
+    $('#msg').delegate('span', 'click', function (event) {
+        var comid = $(this).parent().find('i').text()
+        var replyname = $(this).parent().find('b').text();
+        var incom = $('#incom').val()
+        if (incom === '') {
+            alert('回复内容不能为空！')
+        } else {
+            $.ajax({
+                type: 'get',
+                url: '/api/reply',
+                data: {
+                    id: id,//文章ID
+                    comid: comid,//被回复评论id
+                    userid: userid,//回复用户名id
+                    name: replyname,//被回复评论者用户名称
+                    incom: incom,//回复内容
+                    oDate: oDate,//时间
+                    user: user//用户名
+                },
+                success: function (res) {
+                    if (res.code===7){
+                        alert(res.msg);
+                        window.location.reload()
+                    }
+                }
+            })
+        }
+
+    })
+    $.ajax({
+        type:'get',
+        url:'/api/reply/re',
+        data:{
+            id:id
+        },
+        success:function (res) {
+            for (var i = 0; i < res.length; i++) {
+                var Div = ('<div class=\"col-md-12 comments\"><b ooo='+res[i]._id+'>' + res[i].username+'回复了'+res[i].replyname+'</b><em>' + res[i].current + '</em><p>' + res[i].content + '</p><span>回复</span><a href="javascript:;" class="rom" user-id=' + res[i].userid + '>删除</a></div>')
+                $('#msg').prepend(Div)
+            }
+        }
+    })
+
+    //删除评论
+    $('#msg').delegate('a', 'click', function (event) {
+        var userid = $(this).attr('user-id');
+        var nameid = '<%= userInfo.id %>';
+        var isAdmin = '<%= userInfo.isAdmin %>';
+        var id = $(this).parent().find('i').html();
+            if (isAdmin != true || nameid === userid) {
+                if (id!=undefined){
+                    $.ajax({
+                        type: 'get',
+                        url: '/api/romcom',
+                        data: {
+                            id: id,
+                        },
+                        success: function (res) {
+                            if (res.code === 5) {
+                                alert(res.msg);
+                                window.location.reload()
+                            }
+                        }
+                    })
+                } else  {
+                    var aid=$(this).parent().find('b').attr("ooo");
+                    console.log(aid)
+                    $.ajax({
+                        type:'get',
+                        url:'/api/reply/rom',
+                        data:{
+                            id:aid
+                        },
+                        success:function (res) {
+                            if (res.code===6){
+                                alert(res.msg);
+                                window.location.reload()
+                            }
+                        }
+                    })
+                }
+            } else {
+                alert('没有删除权限！')
+            }
+    })
+
+</script>

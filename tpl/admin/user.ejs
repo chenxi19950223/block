@@ -1,0 +1,103 @@
+<% include top.ejs %>
+<div class="container">
+    <div class="col-md-12">
+        <table class="table table-hover  table-bordered text-center">
+            <tr>
+                <td>ID</td>
+                <td>分类名称</td>
+                <td>分类操作</td>
+            </tr>
+            <% for(var i = 0; i < name.length; i++){ %>
+            <tr class="box">
+                <td><%= name[i]._id %></td>
+                <td><%= name[i].name %></td>
+                <td>
+                    <a type="button" class="btn " data-toggle="modal" data-target="#exampleModal"
+                       data-whatever="@getbootstrap">修改</a>|
+                    <a href="javascript:;">删除</a>
+                </td>
+            </tr>
+            <% } %>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">新名称</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">新名称</label>
+                                    <input type="text" id="iThe" class="form-control">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="edit">确认修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </table>
+    </div>
+</div>
+<script>
+    //修改分类名称
+    $('.box').parent().find('a:nth-child(1)').on('click', function () {
+        var id = $(this).parent().parent().find('td:nth-child(1)').text();
+        $('#edit').on('click',function () {
+            var name=$('#iThe')
+            if (name.val()===''){
+                alert('修改内容不能为空')
+            }else {
+                $.ajax({
+                    type:'get',
+                    url:'/admin/the',
+                    data:{
+                        id:id,
+                        name:name.val()
+                    },
+                    success:function (res) {
+                        if (res.code===4){
+                            alert(res.msg)
+                        } else if (res.code===5){
+                            alert(res.msg);
+                            window.location.reload()
+                        }
+                    }
+                })
+            }
+        })
+
+    })
+
+    //删除分类
+    $('.box').parent().find('a:nth-child(2)').on('click', function () {
+        var id = $(this).parent().parent().find('td:nth-child(1)').text();
+        var name = $(this).parent().parent().find('td:nth-child(2)').text();
+        console.log(id)
+        var com = confirm('是否删除')
+        if (com) {
+            $.ajax({
+                type: 'get',
+                url: '/admin/rom',
+                data: {
+                    id: id
+                },
+                success: function (res) {
+                    if (res.code === 3) {
+                        alert(res.msg)
+                        window.location.reload()
+                    }
+                }
+            })
+
+        } else {
+            alert('删除失败！')
+        }
+    })
+</script>
+</body>
+</html>

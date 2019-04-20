@@ -1,0 +1,65 @@
+<!--主页-->
+<% include top.ejs %>
+<div class="container-fluid conn-f">
+    <div class="container">
+        <div class="col-md-7" id="iTime">
+            <div class="col-md-12" style="margin-bottom: 30px">
+                <img src="../../public/img/timg1.jpg" alt="" class="img-rounded img-responsive">
+            </div>
+            <% for(var i = 0; i < content.length; i++){ %>
+            <div class="col-md-12 con-left">
+                <div class="time hidden-xs">
+                    <span><b class="iTime"><%=content[i].current.split('/')[1]%></b>月</span>
+                    <h4><%=content[i].current.split('/')[2]%></h4>
+                </div>
+                <div class="glyphicon glyphicon-bookmark icon hidden-xs "></div>
+                <h3><%= content[i].title %></h3>
+                <div class="con-title visible-md-inline visible-lg-inline text-center">
+                    <span class="glyphicon glyphicon-tags"><b>zanblog</b></span>
+                    <span class="glyphicon glyphicon-user"><b>佚站互联</b></span>
+                    <span class="glyphicon glyphicon-eye-open"><b><%= content[i].reading %></b></span>
+                </div>
+                <img src="../../public/img/timg1.jpg" alt="" class="img-rounded img-responsive">
+                <div class="col-md-12" style="padding: 0">
+                    <p class="con-con">
+                        <%= content[i].abstract %><br>
+
+                    </p>
+                    <a href="/ion?id=<%= content[i]._id %>" type="button" class="btn btn-warning btn-cx">全文阅读</a>
+                </div>
+            </div>
+            <% } %>
+            <% if(id === ''){ %>
+                <div class="col-md-12 con-left page">
+                    <% if(page === 1){ %>
+                        <a href="javascript:;">上一页</a>
+                    <% }else { %>
+                        <a href="/?page=<%= page - 1 %>">上一页</a>
+                    <% } %>
+                    <span><%= page %>/<%= pages %></span>
+                    <% if(page === pages){ %>
+                        <a href="javascript:;">下一页</a>
+                    <% }else { %>
+                        <a href="/?page=<%= page + 1 %>">下一页</a>
+                    <% } %>
+                </div>
+            <% }else { %>
+                <div class="col-md-12 con-left page">
+                    <% if(page === 1){ %>
+                        <a href="javascript:;">上一页</a>
+                    <% }else { %>
+                        <a href="/?nav=<%= id %>&page=<%= page - 1 %>">上一页</a>
+                    <% } %>
+                    <span><%= page %>/<%= pages %></span>
+                    <% if(page >= pages){ %>
+                        <a href="javascript:;">下一页</a>
+                    <% }else { %>
+                        <a href="/?nav=<%= id %>&page=<%= page + 1 %>">下一页</a>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+        <% include right.ejs %>
+    </div>
+</div>
+<% include bottom.ejs %>

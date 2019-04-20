@@ -1,0 +1,35 @@
+<% include top.ejs %>
+<div class="container">
+    <form style="margin-top: 150px">
+        <div class="form-group">
+            <label for="exampleInputPassword1">新增分类</label>
+            <input type="text" class="form-control" id="text" value="">
+        </div>
+        <a class="btn btn-default" id="btn">提交</a>
+    </form>
+</div>
+<script>
+    $('#btn').on('click',function () {
+        var text=$('#text').val()
+        if (text===''){
+            alert('内容不能为空！')
+        } else {
+            $.ajax({
+                type:'get',
+                url:'/admin/clas',
+                data:{
+                    name:text
+                },
+                success:function (res) {
+                    alert('分类添加成功！');
+                    window.location.reload();
+                },
+                error:function (err) {
+                    console.log(err)
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

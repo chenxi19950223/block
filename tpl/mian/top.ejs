@@ -1,0 +1,439 @@
+<!--头部-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../public/js/jquery.1.10.2.min.js"></script>
+    <script src="../../public/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../public/css/bootstrap.css">
+    <link rel="stylesheet" href="../../public/css/bootstrap-theme.css">
+    <style>
+        .nav-cx {
+            margin: 0;
+            border: 0;
+            box-shaow: 0;
+        }
+
+        .conn-f {
+            padding: 30px 0;
+            background: #eee;
+        }
+
+        .con-left {
+            position: relative;
+            border-radius: 9px;
+            background: #fff;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .con-left img {
+            border-radius: 6px;
+        }
+
+        .con-left p {
+            background: #eee;
+            border-radius: 6px;
+        }
+
+        .time {
+            position: absolute;
+            border-radius: 100%;
+            width: 50px;
+            height: 50px;
+            background: #d9534f;
+            left: -20px;
+            top: -20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .time span {
+            display: block;
+            padding-top: 5px;
+            padding-bottom: 0;
+        }
+
+        .time h4 {
+            margin: 0;
+            font-weight: 800;
+        }
+
+        .icon {
+            right: 15px;
+            top: -10px;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            font-size: 40px;
+            color: #d9534f;
+        }
+
+        .con-left h3 {
+            text-align: center;
+        }
+
+        .con-title {
+            width: auto;
+            height: auto;
+            margin-left: 32%;
+            float: left;
+            margin-bottom: 10px;
+        }
+
+        .con-title span {
+            text-align: right;
+            display: block;
+            padding: 3px 5px 3px 3px;
+            background: #3d4450;
+            width: auto;
+            height: auto;
+            float: left;
+            border-radius: 3px;
+            margin-right: 5px;
+            color: #fff;
+            line-height: 15px;
+            font-size: 12px;
+        }
+
+        .con-con {
+            background: #eee;
+            overflow: hidden;
+            padding: 5px 15px;
+            margin-top: 15px;
+        }
+
+        .con-right {
+            border-radius: 5px;
+            background: #fff;
+            padding: 0;
+        }
+
+        .con-right-top {
+            display: block;
+            height: 30px;
+            border-radius: 5px 5px 0 0;
+            background: #3d4450;
+            color: #fff;
+            text-indent: 15px;
+            line-height: 30px;
+            font-size: 14px;
+        }
+
+        .login-top {
+            margin-bottom: 30px;
+        }
+
+        .form-cx {
+            margin-bottom: 20px;
+        }
+
+        .form-cx span {
+            border: 0;
+            color: #fff;
+            background: #d9534f;
+        }
+
+        .btn-right-cx {
+            width: 48%;
+            display: block;
+            padding: 5px 0;
+            text-align: center;
+            border: 0;
+            background: #3d4450;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .con-right {
+            margin-bottom: 20px;
+        }
+
+        .sou {
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .con-right-top a {
+            color: #fff;
+            float: right;
+            line-height: 30px;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        .article-cx {
+            width: 100%;
+            list-style: none;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .article-cx li {
+            width: 100%;
+            float: left;
+            padding: 13px 0;
+            border-bottom: 1px #eee solid;
+        }
+
+        .article-cx li:last-child {
+            border-bottom: 0;
+        }
+
+        .article-cx li span {
+            display: block;
+            float: left;
+            text-indent: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .article-cx li b {
+            display: block;
+            width: auto;
+            padding: 2px 5px;
+            margin-right: 9px;
+            height: 18px;
+            float: right;
+            border-radius: 6px;
+            background: #d9534f;
+            line-height: 18px;
+            color: #fff;
+        }
+
+        /*.article-cx li img {*/
+            /*border-radius: 50%;*/
+            /*width: 40px;*/
+            /*height: 40px;*/
+            /*float: left;*/
+            /*margin-left: 20px;*/
+        /*}*/
+
+        .article-cx li strong {
+            width: 90%;
+            display: block;
+            float: left;
+            height: 40px;
+            margin-left: 10px;
+            background: #eee;
+            border-radius: 6px;
+            line-height: 40px;
+            text-indent: 20px;
+        }
+
+        .btn-label {
+            padding: 10px 25px;
+            width: 100%;
+            float: left;
+            border-bottom: 1px #eee solid;
+        }
+
+        .btn-label a {
+            float: left;
+            display: block;
+            padding: 5px;
+            color: #666;
+            border-radius: 6px;
+            margin-right: 3px;
+            text-decoration: none;
+        }
+
+        .label-li {
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            width: 100%;
+            text-indent: 20px;
+        }
+
+        .bottom {
+            height: 120px;
+            text-align: center;
+            background: #3d4450;
+            margin-bottom: 0;
+            color: #fff;
+            position: relative;
+        }
+
+        .bottom-top {
+            position: absolute;
+            display: block;
+            height: auto;
+            right: 30px;
+            bottom: 40px;
+        }
+        .text-cx {
+            width: 80%;
+            height: 30px;
+            resize: none;
+            margin: 0;
+            float: left;
+            border-radius: 6px 0 0 6px;
+        }
+
+        .btn--cx {
+            width: 20%;
+            height: 74px;
+            float: left;
+            border-radius: 0 6px 6px 0;
+        }
+        .massage-cx{
+            width: 100%;
+            margin-top: 10px;
+            float: left;
+            background: #eee;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .massage-cx div b{
+            width: 30%;
+            float: left;
+            display: block;color: #46b8da;
+        }
+        .massage-cx div span{
+            width: 60%;
+            float: right;
+            display: block;
+            text-align: right;
+            color: #000
+        }
+        .massage-cx p{
+            width: 100%;
+            float: left;
+            height: auto;
+            margin-top: 5px;
+            text-indent: 1.5em;
+            line-height: 25px;
+            font-size: 16px;
+            padding: 5px;
+            color: #5e5e5e;
+        }
+        .massage-cx a{
+            display: block;
+            float: left;
+        }
+        .page span{
+            display: block;
+            text-align: center;
+            float: left;
+            width: 40%;
+        }
+        .page a:nth-child(1){
+            display: block;
+            width: 30%;
+            float: left;
+        }
+        .page a:last-child{
+            display: block;
+            width: 30%;
+            float: left;
+            text-align: right;
+        }
+        .area-cx{
+            width: 80%;
+            margin: 0;
+            float: left;
+            height: 80px;
+            resize: none;
+            font-size: 20px;
+            line-height: 30px;
+            border: 0;
+            background: #eee;
+        }
+        .span-cx{
+            width: 20%;
+            border: 0;
+            float: left;
+            height: 80px;
+            text-align: center;
+            line-height: 80px;
+            padding: 0;
+            background: #46b8da;
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .comments{
+            width: 100%;
+            margin: 20px 0;
+            padding: 0px 5px;
+            float: left;
+            overflow: hidden;
+            height: auto;
+        }
+        .comments b{
+            width: 50%;
+            float: left;
+            font-size: 16px;
+            display: block;
+            height: 20px;
+            line-height: 20px;
+            font-weight: normal;
+        }
+        .comments em{
+            font-style: normal;
+            display: block;
+            width: 50%;
+            float: left;
+            text-align: right;
+            line-height: 20px;
+        }
+        .comments p{
+            width: 100%;
+            float: left;
+            background: white;
+            font-size: 18px;
+            display: block;
+        }
+        .comments span{
+            color: #46b8da;
+            cursor:pointer;
+        }
+        .comments a{
+            display: block;
+            float: right;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('.btn-label').find('a').on('click', function () {
+                $('.btn-label').find('a').css('background', '#fff');
+                $('.btn-label').find('a').css('color', '#666');
+                $(this).css('background', "#d9534f");
+                $(this).css('color', "#fff");
+            })
+            $('.bottom-top').on('click', function () {
+                // $(document).scrollTop(0);
+                $('html').animate({scrollTop: 0}, 1000);
+            })
+        })
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-default nav-cx">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Brand</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/" class="glyphicon glyphicon-home"> 首页</a></li>
+                <%for(var i=0; i<name.length; i++){%>
+                    <li><a href="/?nav=<%=name[i]._id%>" class="glyphicon glyphicon-home" > <%=name[i].name%></a></li>
+                <%}%>
+            </ul>
+        </div>
+    </div>
+</nav>
